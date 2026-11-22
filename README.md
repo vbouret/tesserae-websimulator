@@ -4,7 +4,7 @@ A browser-only simulator of the [tesserae-device-firmware](https://github.com/dm
 Each virtual device onboards on a Tesserae server, polls for frames, paints them on a simulated
 e-paper panel, reports status and sleeps for the server-driven interval. See [PLAN.md](PLAN.md).
 
-Supported boards: Seeed reTerminal E1001 (mono 1bpp) and E1001 4-gray (2bpp).
+Supported boards: Seeed reTerminal E1001 (mono 1bpp), E1001 4-gray (2bpp), E1002 (Spectra 6, 4bpp) and E1003 (16-gray, 4bpp, 1872×1404).
 
 ## Develop
 

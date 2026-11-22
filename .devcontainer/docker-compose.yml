@@ -1,0 +1,22 @@
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/typescript-node:22
+    volumes:
+      - ..:/workspaces/tesserae-websimulator:cached
+    command: sleep infinity
+    ports:
+      - '5173:5173'
+    depends_on:
+      - tesserae
+
+  tesserae:
+    # Pin a tag you have tested. Only the image reference lives in this repo.
+    image: ghcr.io/dmellok/tesserae:latest
+    environment:
+      TESSERAE_IN_DOCKER: '1'
+    ports:
+      - '8765:8765'
+    volumes:
+      # gitignored; Tesserae's data directory inside the image should be confirmed
+      # against its README and adjusted here.
+      - ./.tesserae-data:/data

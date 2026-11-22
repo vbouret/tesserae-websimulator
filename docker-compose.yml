@@ -1,0 +1,11 @@
+# Dokploy deployment: static build behind Dokploy's Traefik (domain + TLS). No volumes:
+# all device state lives in each browser's IndexedDB.
+services:
+  web:
+    build:
+      context: .
+      args:
+        VITE_DEFAULT_SERVER_URL: ${VITE_DEFAULT_SERVER_URL:-}
+    restart: unless-stopped
+    expose:
+      - '8080'

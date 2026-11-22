@@ -1,0 +1,112 @@
+@import 'tailwindcss';
+@import '@fontsource/archivo/400.css';
+@import '@fontsource/archivo/700.css';
+@import '@fontsource/martian-mono/400.css';
+@import '@fontsource/martian-mono/700.css';
+
+/* Paper design: see STYLE.md */
+@theme {
+  --font-sans: 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Martian Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+  --radius-2xl: 2px;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-soft: var(--surface-soft);
+  --color-sunk: var(--surface-sunk);
+  --color-edge: var(--sheet-edge);
+  --color-hover: var(--hover);
+  --color-selected: var(--selected);
+  --color-ink: var(--fg);
+  --color-ink-soft: var(--fg-soft);
+  --color-muted: var(--muted);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-fg: var(--accent-fg);
+  --color-ok: var(--ok);
+  --color-ok-bg: var(--ok-bg);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+}
+
+:root {
+  --bg: #eeeae1;
+  --surface: #fffdf8;
+  --surface-soft: #faf7f0;
+  --surface-sunk: #f1ece1;
+  --sheet-edge: #e2dccf;
+  --hover: #f7f3ea;
+  --selected: #e6e0d2;
+  --fg: #1c1b19;
+  --fg-soft: #55524b;
+  --muted: #7a766c;
+  --border: #e0dacd;
+  --border-strong: #cfc8b8;
+  --accent: #b8352a;
+  --accent-hover: #9e2c22;
+  --accent-soft: #f3dcd6;
+  --accent-fg: #fffdf8;
+  --ok: #3d7a3a;
+  --ok-bg: #e3ebdd;
+  --warn: #9a6f0c;
+  --warn-bg: #f2e7cc;
+  --danger: #b8352a;
+  --danger-bg: #f3dcd6;
+  --focus: #2b4e9b;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #151412;
+    --surface: #22211e;
+    --surface-soft: #262421;
+    --surface-sunk: #1e1d1b;
+    --sheet-edge: #35332e;
+    --hover: #262421;
+    --selected: #2f2d29;
+    --fg: #ede9df;
+    --fg-soft: #a8a397;
+    --muted: #8a857a;
+    --border: #35332e;
+    --border-strong: #45423c;
+    --accent: #d0493c;
+    --accent-hover: #e05a4c;
+    --accent-soft: #3b211d;
+    --accent-fg: #ffffff;
+    --ok: #8dbf7f;
+    --ok-bg: #24301f;
+    --warn: #d9b45a;
+    --warn-bg: #3a311b;
+    --danger: #e58474;
+    --danger-bg: #3b211d;
+    --focus: #7c9be0;
+    color-scheme: dark;
+  }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  @apply bg-bg text-ink antialiased;
+}
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+canvas.panel {
+  image-rendering: pixelated;
+}

@@ -1,0 +1,20 @@
+{
+  "name": "tesserae-websimulator",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/tesserae-websimulator",
+  "forwardPorts": [5173, 8765],
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-playwright.playwright",
+        "vitest.explorer",
+        "anthropic.claude-code"
+      ]
+    }
+  }
+}

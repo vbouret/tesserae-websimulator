@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { getProfile } from '@/profiles'
 import { useSim } from '@/store/sim'
 import { Button, Card, Field, Input, Select } from './ui/primitives'
 
@@ -111,23 +112,27 @@ export function Controls({ id }: { id: string }) {
             unit=" dBm"
             onChange={(v) => setSettings(id, { rssi: v })}
           />
-          <Slider
-            label="Temperature"
-            value={s.temperatureC}
-            min={-20}
-            max={50}
-            step={0.1}
-            unit=" °C"
-            onChange={(v) => setSettings(id, { temperatureC: v })}
-          />
-          <Slider
-            label="Humidity"
-            value={s.humidityPct}
-            min={0}
-            max={100}
-            unit="%"
-            onChange={(v) => setSettings(id, { humidityPct: v })}
-          />
+          {getProfile(rt.profileId).envSensor && (
+            <>
+              <Slider
+                label="Temperature"
+                value={s.temperatureC}
+                min={-20}
+                max={50}
+                step={0.1}
+                unit=" °C"
+                onChange={(v) => setSettings(id, { temperatureC: v })}
+              />
+              <Slider
+                label="Humidity"
+                value={s.humidityPct}
+                min={0}
+                max={100}
+                unit="%"
+                onChange={(v) => setSettings(id, { humidityPct: v })}
+              />
+            </>
+          )}
           <div className="flex gap-6">
             {check('USB power (vbus)', 'vbus')}
             {check('Charging', 'charging')}

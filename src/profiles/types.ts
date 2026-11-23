@@ -21,5 +21,5 @@ export interface DeviceProfile {
   buttons: ButtonSpec[]
   battery: { minMv: number; maxMv: number }
   idPrefix: string
-  hasEnvSensor: boolean
+  envSensor?: 'sht4x' | 'sht3x' | 'shtc3'
 }

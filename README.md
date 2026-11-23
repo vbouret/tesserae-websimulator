@@ -4,7 +4,11 @@ A browser-only simulator of the [tesserae-device-firmware](https://github.com/dm
 Each virtual device onboards on a Tesserae server, polls for frames, paints them on a simulated
 e-paper panel, reports status and sleeps for the server-driven interval. See [PLAN.md](PLAN.md).
 
-Supported boards: Seeed reTerminal E1001 (mono 1bpp), E1001 4-gray (2bpp), E1002 (Spectra 6, 4bpp) and E1003 (16-gray, 4bpp, 1872×1404).
+The board selector includes the devices in the firmware's supported-device list, plus
+additional firmware board targets. Each profile uses its firmware kind, panel geometry,
+frame format and button mappings. Your Tesserae server must support the selected kind.
+The simulator models the common REST wake cycle; hardware-specific features such as touch,
+partial refresh, SD caching and BLE are not simulated.
 
 ## Develop
 
@@ -27,7 +31,7 @@ and either approve it under _Settings > Devices_ (Discover) or use a pairing cod
 ## Using it
 
 - **Add device**: pick the board, server URL, fake SSID and onboarding mode.
-- **Wake now / buttons**: Left, Right and Refresh wake the device; the press is sent as
+- **Wake now / buttons**: Available board buttons wake the device; the press is sent as
   `?button=…&button_event_id=…` on the frame GET, with a `/status` fallback.
 - **Time speed** divides the server's sleep interval (×10, ×60, ×600) for testing.
 - **Inspector**: HTTP log, state timeline, NVS dump, raw frame stats/hex.

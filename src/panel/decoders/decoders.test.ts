@@ -3,6 +3,7 @@ import { mono1 } from './mono1'
 import { gray2 } from './gray2'
 import { gray4 } from './gray4'
 import { spectra6 } from './spectra6'
+import { acep7, bwr, bwry } from './paletted'
 
 describe('mono1', () => {
   it('has the E1001 frame size', () => {
@@ -58,6 +59,30 @@ describe('gray4', () => {
 describe('spectra6', () => {
   it('has the E1002 frame size', () => {
     expect(spectra6.frameBytes(800, 480)).toBe(192000)
+  })
+
+  describe('color palette formats', () => {
+    it('decodes BWR indices with the reserved code as white', () => {
+      const px = bwr.decode(new Uint8Array([0b00011011]), 4, 1)
+      expect(Array.from(px)).toEqual([
+        0, 0, 0, 255, 255, 255, 255, 255, 190, 30, 30, 255, 255, 255, 255, 255,
+      ])
+      expect(bwr.encode(px, 4, 1)).toEqual(new Uint8Array([0b00011001]))
+    })
+
+    it('decodes B/W/Y/R and respects row padding', () => {
+      const bytes = new Uint8Array([0b00011000, 0b11100100])
+      const px = bwry.decode(bytes, 3, 2)
+      expect(Array.from(px.slice(8, 12))).toEqual([230, 200, 0, 255])
+      expect(Array.from(px.slice(12, 16))).toEqual([190, 30, 30, 255])
+      expect(bwry.encode(px, 3, 2)).toEqual(bytes)
+      expect(bwry.frameBytes(1360, 480)).toBe(163200)
+    })
+
+    it('round-trips the seven-color ACeP palette', () => {
+      const bytes = new Uint8Array([0x01, 0x23, 0x45, 0x60])
+      expect(acep7.encode(acep7.decode(bytes, 8, 1), 8, 1)).toEqual(bytes)
+    })
   })
   it('round-trips valid palette codes', () => {
     const codes = [0, 1, 2, 3, 5, 6, 1, 0]

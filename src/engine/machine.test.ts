@@ -4,9 +4,10 @@ import { HttpError, type Http, type HttpRequest, type HttpResponse } from './htt
 import { FirmwareEngine, defaultSettings, type EngineEvent, type SimSettings } from './machine'
 import { Nvs, fakeMac, newNvs } from './nvs'
 import { Runner } from './runner'
-import { e1001 } from '@/profiles/seeed-reterminal-e1001'
-import { e1001Gray } from '@/profiles/seeed-reterminal-e1001-gray'
-import type { DeviceProfile } from '@/profiles'
+import { frameBytesFor, getProfile, type DeviceProfile } from '@/profiles'
+
+const e1001 = getProfile('e1001')
+const e1001Gray = getProfile('e1001-gray')
 
 type Handler = (req: HttpRequest) => (Partial<HttpResponse> & { json?: unknown }) | Error
 
@@ -120,6 +121,38 @@ describe('wake cycle', () => {
       rotation: 0,
     })
   })
+
+  it.each([
+    ['waveshare-rlcd-42', 'shtc3'],
+    ['m5stack-m5paper', 'sht3x'],
+    ['waveshare-133e6', undefined],
+  ])('reports the environmental sensor for %s', async (id, sensor) => {
+    const profile = getProfile(id)
+    const t = setup(happy(frameBytesFor(profile)), { profile })
+    expect((await t.engine.cycle('boot')).outcome).toBe('painted')
+    expect(JSON.parse(t.http.calls[0].body!)).toMatchObject({
+      kind: profile.kind,
+      panel_w: profile.panelW,
+      panel_h: profile.panelH,
+      rotation: profile.rotation,
+    })
+    const status = JSON.parse(t.http.find(/status/)[0].body!)
+    expect(status.env_sensor).toBe(sensor)
+    if (!sensor) {
+      expect(status.temperature_c).toBeUndefined()
+      expect(status.humidity_pct).toBeUndefined()
+    }
+  })
+
+  it.each(['xiao-epaper-75-bwr', 'waveshare-1085g', 'waveshare-epaper-73f'])(
+    'accepts and paints the %s frame format',
+    async (id) => {
+      const profile = getProfile(id)
+      const t = setup(happy(frameBytesFor(profile)), { profile })
+      expect((await t.engine.cycle('boot')).outcome).toBe('painted')
+      expect(t.nvs.get().display.kind).toBe('frame')
+    },
+  )
 
   it('registers with the pairing code header', async () => {
     const t = setup((req) =>

@@ -333,10 +333,10 @@ export class FirmwareEngine {
       panel_w: profile.panelW,
       panel_h: profile.panelH,
     }
-    if (profile.hasEnvSensor) {
+    if (profile.envSensor) {
       body.temperature_c = s.temperatureC
       body.humidity_pct = s.humidityPct
-      body.env_sensor = 'sht4x'
+      body.env_sensor = profile.envSensor
     }
     if (nv.tz) body.tz = nv.tz
     if (button) {
